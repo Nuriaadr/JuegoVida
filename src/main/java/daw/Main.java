@@ -13,20 +13,21 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-
+  Scanner sc = new Scanner(System.in);
         boolean repetir;
-
+        int numero = 0;
+        int[][] tablero = new int[numero][numero];
+        JuegoVida juego = new JuegoVida(numero);
         do {
-            Scanner sc = new Scanner(System.in);
+
             System.out.println("Ingrese tamaño del tablero (maximo 25x25):");
-            int numero = sc.nextInt();
+            numero = sc.nextInt();
             sc.nextLine();
 
             if (numero < 1 || numero > 25) {
                 System.out.println("Introduzca un número válido");
                 repetir = true;
             } else {
-                JuegoVida juego = new JuegoVida(numero);
                 System.out.println("Ingrese el porcentaje de células vivas:");
                 int porcentaje = sc.nextInt();
                 if (porcentaje < 1 || porcentaje > 100) {
@@ -39,8 +40,28 @@ public class Main {
                 }
             }
 
-        }while(repetir == true);
-       
-    }
+        } while (repetir == true);
 
+        String opcion;
+        do {
+            System.out.println("""
+          Menu
+    1. Mostrar siguiente generacion
+    2. Salir
+    Elige una opcion: 
+                     """);
+            opcion = sc.nextLine();
+            switch (opcion) {
+                case "1":
+
+                    juego.mostrarTablero();
+                    break;
+                case "2":
+                    System.out.println("Saliendo...");
+                    break;
+            }
+        } while (!opcion.equals("2"));
+    }
 }
+
+
