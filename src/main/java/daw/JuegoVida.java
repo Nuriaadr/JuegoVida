@@ -18,7 +18,8 @@ public class JuegoVida {
     public JuegoVida(int numero) {
         this.numero = numero;
         this.tablero = new int[numero][numero];
-        this.generacion = 0;
+        this.generacion = 0; //Inicializa la generación como la primera y a partir
+        //de un método hecho más adelante se van sumando generaciones
     }
 
     public void inicializarAleatoriamente(int porcentaje) {
@@ -38,6 +39,22 @@ public class JuegoVida {
             //coloca un 1 en la casilla donde hay celulas vivas
             tablero[fila][columna] = 1;
         }
+    }
+
+    public void mostrarTablero() {
+        for (int[] fila : tablero) {
+            for (int celda : fila) {
+                //imprime las celulas vivas(según tengan 1 o no) del tablero 
+                //inicializado con cuadraditos pa que quede como en la foto
+                if (celda == 1) {
+                    System.out.print("■ ");
+                } else {
+                    System.out.print("□ ");
+                }
+            }
+            System.out.println();
+        }
+        System.out.println("Generación: " + generacion);
     }
 
 }
