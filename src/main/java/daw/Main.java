@@ -28,6 +28,7 @@ public class Main {
                 System.out.println("Introduzca un número válido");
                 repetir = true;
             } else {
+                JuegoVida juego = new JuegoVida(numero);
                 System.out.println("Ingrese el porcentaje de células vivas:");
                 int porcentaje = sc.nextInt();
                 if (porcentaje < 1 || porcentaje > 100) {

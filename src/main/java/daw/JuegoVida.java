@@ -55,42 +55,44 @@ public class JuegoVida {
             System.out.println();
         }
         System.out.println("Generación: " + generacion);
-    } public static int contarCelulasVecinas(int [][] tablero, int fila, int columna){
-    int contadorVecinas =0;
-    int filasTotales= tablero.length;
-    int columnasTotales = tablero[0].length;
+    }
+
+    public static int contarCelulasVecinas(int[][] tablero, int fila, int columna) {
+        int contadorVecinas = 0;
+        int filasTotales = tablero.length;
+        int columnasTotales = tablero[0].length;
         // empezar x arriba izq
-       if(fila-1 >=0 && columna-1 >=0 && tablero[fila-1][columna-1]==1){
-           contadorVecinas++;
-       }
-       // x arriba
-       if(fila-1 >=0 && tablero[fila-1][columna]==1 ){
-           contadorVecinas++;
-       }
-       // x arriba-derecha
-        if(fila-1 >=0 && columna+1 >=0 && columnasTotales==1 && tablero[fila-1][columna+1]==1){
-           contadorVecinas++;
-       }
+        if (fila - 1 >= 0 && columna - 1 >= 0 && tablero[fila - 1][columna - 1] == 1) {
+            contadorVecinas++;
+        }
+        // x arriba
+        if (fila - 1 >= 0 && tablero[fila - 1][columna] == 1) {
+            contadorVecinas++;
+        }
+        // x arriba-derecha
+        if (fila - 1 >= 0 && columna + 1 >= 0 && columnasTotales == 1 && tablero[fila - 1][columna + 1] == 1) {
+            contadorVecinas++;
+        }
         // izq 
-         if(columna-1 >=0 && tablero[fila][columna-1]==1 ){
-           contadorVecinas++;
-       }
-         // derecha
-          if(columna+1 >columnasTotales && tablero[fila][columna+1]==1 ){
-           contadorVecinas++;
-          }
-         // abajo izq  
-         if(fila+1 <filasTotales && columna -1 >=0 && tablero[fila+1][columna-1]==1 ){
-             contadorVecinas++;
-             }
-         // abajo
-          if(fila+1 < columnasTotales && tablero[fila+1][columna]==1 ){
-           contadorVecinas++;
-          }
-           // abajo der
-           if(fila+1 >columnasTotales && columna+1 >=0 && tablero [fila+1][columna+1]==1){
-               contadorVecinas++;
-       }
-           return contadorVecinas;
+        if (columna - 1 >= 0 && tablero[fila][columna - 1] == 1) {
+            contadorVecinas++;
+        }
+        // derecha
+        if (columna + 1 > columnasTotales && tablero[fila][columna + 1] == 1) {
+            contadorVecinas++;
+        }
+        // abajo izq  
+        if (fila + 1 < filasTotales && columna - 1 >= 0 && tablero[fila + 1][columna - 1] == 1) {
+            contadorVecinas++;
+        }
+        // abajo
+        if (fila + 1 < columnasTotales && tablero[fila + 1][columna] == 1) {
+            contadorVecinas++;
+        }
+        // abajo der
+        if (fila + 1 > columnasTotales && columna + 1 >= 0 && tablero[fila + 1][columna + 1] == 1) {
+            contadorVecinas++;
+        }
+        return contadorVecinas;
     }
 }
