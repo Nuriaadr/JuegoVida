@@ -13,14 +13,18 @@ import java.util.Random;
  */
 public class JuegoVida {
 
-    private int[][] tablero;
+     private Celula[][] tablero;
     private int numero;
     public List<Integer> historialCelulasVivas;
     private int generacion;
 
+
+    public JuegoVida() {
+    }
+    
     public JuegoVida(int numero) {
         this.numero = numero;
-        this.tablero = new int[numero][numero];
+        this.tablero = new Celula[numero][numero];
         this.generacion = 0; //Inicializa la generación como la primera y a partir
         //de un método hecho más adelante se van sumando generaciones
         this.historialCelulasVivas = new ArrayList<>();
@@ -33,47 +37,49 @@ public class JuegoVida {
 
         //coloca células hasta que alcanza el numero de vivas que hemos puesto
         for (int i = 0; i < celVivas; i++) {
-            int fila;
-            int columna;
-            //genera las coordenadas aleatorias mirando que no esté ocupada ya
+            int fila, columna;
             do {
                 fila = rd.nextInt(numero);
                 columna = rd.nextInt(numero);
-            } while (tablero[fila][columna] == 1);
-            //coloca un 1 en la casilla donde hay celulas vivas
-            tablero[fila][columna] = 1;
+            } while (tablero[fila][columna].isViva()); 
+            tablero[fila][columna].setViva(true); // Colocamos celula viva en una posición aleatoria
         }
         contarCelulasVivas();
     }
 
     public void mostrarTablero() {
-        for (int[] fila : tablero) {
-            for (int celda : fila) {
-                //imprime las celulas vivas(según tengan 1 o no) del tablero 
-                //inicializado con cuadraditos pa que quede como en la foto
-                if (celda == 1) {
-                    System.out.print("■ ");
-                } else {
-                    System.out.print("□ ");
-                }
-            }
-            System.out.println();
-        }
-        System.out.println("Generación: " + generacion);
-    }
-
-    private void contarCelulasVivas() {
-        int contadorCelulasVivas = 0;
-        for (int[] fila : tablero) {
-            for (int celula : fila) {
-                if (celula == 1) {
-                    contadorCelulasVivas++;
-                }
+    for (Celula[] fila : tablero) {
+        for (Celula celula : fila) {
+            if (celula.isViva()) {
+                System.out.print("■ ");
             }
         }
-        historialCelulasVivas.add(contadorCelulasVivas);
+        System.out.println();
     }
 
+    for (Celula[] fila : tablero) {
+        for (Celula celula : fila) {
+            if (!celula.isViva()) {
+                System.out.print("□ ");
+            }
+        }
+        System.out.println();
+    }
+
+    System.out.println("Generación: " + generacion);
+}
+
+   private void contarCelulasVivas() {
+    int contadorCelulasVivas = 0;
+    for (Celula[] fila : tablero) {
+        for (Celula celula : fila) {
+            if (celula.isViva()) { 
+                contadorCelulasVivas++;
+            }
+        }
+    }
+    historialCelulasVivas.add(contadorCelulasVivas);
+}
      // cuenta las 8 posiciones de alrededor
     public static int contarCelulasVecinas(int[][] tablero, int fila, int columna) {
         int contadorVecinas = 0;
@@ -88,7 +94,7 @@ public class JuegoVida {
         if (fila - 1 >= 0 && tablero[fila - 1][columna] == 1) {
             contadorVecinas++;
         }
-        // x arriba-derecha
+        // x arriba-derecha controla que no este fuera del limite y que este arriba derecha
         if (fila - 1 >= 0 && columna + 1 >= 0 && columnasTotales == 1 && tablero[fila - 1][columna + 1] == 1) {
             contadorVecinas++;
         }
@@ -101,6 +107,7 @@ public class JuegoVida {
             contadorVecinas++;
         }
         // abajo izq  
+        // controla que no estee fuera del limite y que este en la posicion abajo izq
         if (fila + 1 < filasTotales && columna - 1 >= 0 && tablero[fila + 1][columna - 1] == 1) {
             contadorVecinas++;
         }
@@ -109,18 +116,18 @@ public class JuegoVida {
             contadorVecinas++;
         }
         // abajo der
+        // controla que no esten fuera y que este abajo a la derecha
         if (fila + 1 > columnasTotales && columna + 1 >= 0 && tablero[fila + 1][columna + 1] == 1) {
             contadorVecinas++;
         }
         return contadorVecinas;
     }
 
-
    public void siguienteGeneracion() {
         int[][] tableroGeneracionNueva = new int[numero][numero];
         for (int i = 0; i < numero; i++) {
             for (int j = 0; j < numero; j++) {
-                int numeroCelulasVivas = contarCelulasVecinas(tablero, i, j);  // Corregido aquí
+                int numeroCelulasVivas = contarCelulasVecinas(tablero, i, j); 
 
                 // Una celula viva con 2 o 3 celulas alrededor vivas sigue viva
                 if (tablero[i][j] == 1 && (numeroCelulasVivas == 2 || numeroCelulasVivas == 3)) {

@@ -4,6 +4,7 @@
  */
 package daw;
 
+
 import java.util.Scanner;
 
 /**
@@ -45,7 +46,6 @@ public class Main {
                         if (numero < 1 || numero > 25) {
                             System.out.println("Introduce el numero correctamente");
                         } else {
-                            juego = new JuegoVida(numero);
                             System.out.println("Introduce el porcentaje ");
                             int porcentaje = sc.nextInt();
                             sc.nextLine();
@@ -83,8 +83,6 @@ public class Main {
 
                                                 }
 
-                                            } else {
-                                                repetir = true;
                                             }
                                         }
                                         case 2 -> {
