@@ -74,23 +74,64 @@ public class JuegoVida {
         historialCelulasVivas.add(contadorCelulasVivas);
     }
 
-    public static int contarCelulasVecinas(int fila, int columna) {
-
+     // cuenta las 8 posiciones de alrededor
+    public static int contarCelulasVecinas(int[][] tablero, int fila, int columna) {
+        int contadorVecinas = 0;
+        int filasTotales = tablero.length;
+        int columnasTotales = tablero[0].length;
+        // empezar x arriba izq
+        // primero comprueba que no se salgan del limite y luego que este en un posicion correcta es decir arriba izq 
+        if (fila - 1 >= 0 && columna - 1 >= 0 && tablero[fila - 1][columna - 1] == 1) {
+            contadorVecinas++;
+        }
+        // x arriba
+        if (fila - 1 >= 0 && tablero[fila - 1][columna] == 1) {
+            contadorVecinas++;
+        }
+        // x arriba-derecha
+        if (fila - 1 >= 0 && columna + 1 >= 0 && columnasTotales == 1 && tablero[fila - 1][columna + 1] == 1) {
+            contadorVecinas++;
+        }
+        // izq 
+        if (columna - 1 >= 0 && tablero[fila][columna - 1] == 1) {
+            contadorVecinas++;
+        }
+        // derecha
+        if (columna + 1 > columnasTotales && tablero[fila][columna + 1] == 1) {
+            contadorVecinas++;
+        }
+        // abajo izq  
+        if (fila + 1 < filasTotales && columna - 1 >= 0 && tablero[fila + 1][columna - 1] == 1) {
+            contadorVecinas++;
+        }
+        // abajo
+        if (fila + 1 < columnasTotales && tablero[fila + 1][columna] == 1) {
+            contadorVecinas++;
+        }
+        // abajo der
+        if (fila + 1 > columnasTotales && columna + 1 >= 0 && tablero[fila + 1][columna + 1] == 1) {
+            contadorVecinas++;
+        }
+        return contadorVecinas;
     }
 
-    public void siguienteGeneracion() {
+
+   public void siguienteGeneracion() {
         int[][] tableroGeneracionNueva = new int[numero][numero];
         for (int i = 0; i < numero; i++) {
             for (int j = 0; j < numero; j++) {
-                int numeroCelulasVivas = contarCelulasVecinas(i, j);
-                //Una célula viva con 2 ó 3 células vecinas vivas sigue vivaé
+                int numeroCelulasVivas = contarCelulasVecinas(tablero, i, j);  // Corregido aquí
+
+                // Una celula viva con 2 o 3 celulas alrededor vivas sigue viva
                 if (tablero[i][j] == 1 && (numeroCelulasVivas == 2 || numeroCelulasVivas == 3)) {
                     tableroGeneracionNueva[i][j] = 1;
-                    //Una célula muerta con exactamente 3 células vecinas vivas "nace" (
-                } else if (tablero[i][j] == 0 && numeroCelulasVivas == 3) {
+                } 
+                // Una celula muerta con exactamente 3 celulas vecinas vivas "nace"
+                else if (tablero[i][j] == 0 && numeroCelulasVivas == 3) {
                     tableroGeneracionNueva[i][j] = 1;
-                    //en cualquiera de los otros dos casos la célula muere
-                } else {
+                } 
+                //  la celula muere
+                else {
                     tableroGeneracionNueva[i][j] = 0;
                 }
             }
