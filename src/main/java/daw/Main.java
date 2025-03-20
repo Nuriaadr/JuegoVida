@@ -78,11 +78,13 @@ public class Main {
                                                         && juego.historialCelulasVivas.get(tamanio - 2).equals(juego.historialCelulasVivas.get(tamanio - 3))) {
 
                                                     System.out.println("No hay cambios en las últimas 3 generaciones. El juego ha terminado.");
-
+                                                    repetir = false;
                                                     break;
 
                                                 }
 
+                                            } else {
+                                                repetir = true;
                                             }
                                         }
                                         case 2 -> {
@@ -106,17 +108,16 @@ public class Main {
                     } while (repetir);
                 }
 
-               
-                case 3 ->{
+                case 3 -> {
                     System.out.println("Saliendo...");
                     break;
                 }
                 default -> {
                     System.out.println("Introduzca una opción válida");
                 }
-                   
+
             }
-           
+
         } while (opcion != 5);
     }
 }
