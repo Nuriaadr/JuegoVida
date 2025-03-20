@@ -4,6 +4,7 @@
  */
 package daw;
 
+import java.awt.BorderLayout;
 import java.util.Scanner;
 
 /**
@@ -22,23 +23,22 @@ public class Main {
         String menu = """
             Menu
             1. Cargar una partida desde un fichero de texto 
-            2. Iniciar un nuevo juego
-            3. Mostrar siguiente generacion
-            4. Guardar partida
-            5. Salir
+            2. Iniciar un nuevo juego    
+            3. Salir
             Elige una opcion: 
             """;
 
-        String opcion;
+        int opcion;
         do {
             System.out.print(menu);
-            opcion = sc.nextLine();
+            opcion = sc.nextInt();
+            sc.nextLine();
 
             switch (opcion) {
-                case "1" ->
+                case 1 ->
                     System.out.println("Cargando partida desde archivo...");
 
-                case "2" -> {
+                case 2 -> {
                     do {
                         System.out.println("Introduce tamaño del tablero (maximo 25x25)");
                         numero = sc.nextInt();
@@ -93,8 +93,8 @@ public class Main {
                                         case 3 -> {
 
                                         }
-                                        
-                                        default->{
+
+                                        default -> {
                                             System.out.println("Introduzca una opción válida.");
                                             repetir = true;
                                         }
@@ -106,17 +106,17 @@ public class Main {
                     } while (repetir);
                 }
 
-                case "3" -> {
-                    System.out.println("Mostrando siguiente generacion...");
-                    juego.mostrarTablero();
-                }
-
-                case "4" ->
-                    System.out.println("Guardando partida...");
-
-                case "5" ->
+               
+                case 3 ->{
                     System.out.println("Saliendo...");
+                    break;
+                }
+                default -> {
+                    System.out.println("Introduzca una opción válida");
+                }
+                   
             }
-        } while (!opcion.equals("5"));
+           
+        } while (opcion != 5);
     }
 }
