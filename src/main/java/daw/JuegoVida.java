@@ -15,8 +15,8 @@ public class JuegoVida {
 
     private int[][] tablero;
     private int numero;
+    public List<Integer> historialCelulasVivas;
     private int generacion;
-    private List<Integer> historialCelulasVivas;
 
     public JuegoVida(int numero) {
         this.numero = numero;
@@ -74,50 +74,23 @@ public class JuegoVida {
         historialCelulasVivas.add(contadorCelulasVivas);
     }
 
-    public static int contarCelulasVecinas(int[][] tablero, int fila, int columna) {
-        int contadorVecinas = 0;
-        int filasTotales = tablero.length;
-        int columnasTotales = tablero[0].length;
-        // empezar x arriba izq
-        if (fila - 1 >= 0 && columna - 1 >= 0 && tablero[fila - 1][columna - 1] == 1) {
-            contadorVecinas++;
+    public static int contarCelulasVecinas(int fila, int columna) {
+        int contadorVecinasVivas = 0;
+
+        for (int i = fila - 1; i <= fila + 1; i++) {
+            for (int j = columna - 1; j <= columna + 1; j++) {
+
+            }
         }
-        // x arriba
-        if (fila - 1 >= 0 && tablero[fila - 1][columna] == 1) {
-            contadorVecinas++;
-        }
-        // x arriba-derecha
-        if (fila - 1 >= 0 && columna + 1 >= 0 && columnasTotales == 1 && tablero[fila - 1][columna + 1] == 1) {
-            contadorVecinas++;
-        }
-        // izq 
-        if (columna - 1 >= 0 && tablero[fila][columna - 1] == 1) {
-            contadorVecinas++;
-        }
-        // derecha
-        if (columna + 1 > columnasTotales && tablero[fila][columna + 1] == 1) {
-            contadorVecinas++;
-        }
-        // abajo izq  
-        if (fila + 1 < filasTotales && columna - 1 >= 0 && tablero[fila + 1][columna - 1] == 1) {
-            contadorVecinas++;
-        }
-        // abajo
-        if (fila + 1 < columnasTotales && tablero[fila + 1][columna] == 1) {
-            contadorVecinas++;
-        }
-        // abajo der
-        if (fila + 1 > columnasTotales && columna + 1 >= 0 && tablero[fila + 1][columna + 1] == 1) {
-            contadorVecinas++;
-        }
-        return contadorVecinas;
+        return contadorVecinasVivas;
+
     }
 
     public void siguienteGeneracion() {
         int[][] tableroGeneracionNueva = new int[numero][numero];
         for (int i = 0; i < numero; i++) {
             for (int j = 0; j < numero; j++) {
-                int numeroCelulasVivas = contarCelulasVecinas(tablero, i, j);
+                int numeroCelulasVivas = contarCelulasVecinas(i, j);
                 //Una célula viva con 2 ó 3 células vecinas vivas sigue vivaé
                 if (tablero[i][j] == 1 && (numeroCelulasVivas == 2 || numeroCelulasVivas == 3)) {
                     tableroGeneracionNueva[i][j] = 1;
