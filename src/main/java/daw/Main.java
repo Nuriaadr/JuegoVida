@@ -4,7 +4,6 @@
  */
 package daw;
 
-import java.awt.BorderLayout;
 import java.util.Scanner;
 
 /**
@@ -17,8 +16,8 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         boolean repetir = true;
         int numero = 0;
-        int[][] tablero = new int[numero][numero];
-        JuegoVida juego = new JuegoVida(numero);
+        int[][] tablero;
+        JuegoVida juego = null;
 
         String menu = """
             Menu
@@ -46,6 +45,7 @@ public class Main {
                         if (numero < 1 || numero > 25) {
                             System.out.println("Introduce el numero correctamente");
                         } else {
+                            juego = new JuegoVida(numero);
                             System.out.println("Introduce el porcentaje ");
                             int porcentaje = sc.nextInt();
                             sc.nextLine();
