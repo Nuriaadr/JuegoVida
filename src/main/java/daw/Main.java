@@ -35,13 +35,9 @@ public class Main {
             opcion = sc.nextLine();
 
             switch (opcion) {
-                case "1":
-                    System.out.println("Cargando partida desde archivo...");
-                   
-                    break;
+                case "1" -> System.out.println("Cargando partida desde archivo...");
 
-                case "2":
-                 
+                case "2" -> {
                     do {
                         System.out.println("Introduce tamaño del tablero (maximo 25x25)");
                         numero = sc.nextInt();
@@ -59,22 +55,16 @@ public class Main {
                             }
                         }
                     } while (repetir);
-                    break;
+              }
 
-                case "3":
+                case "3" -> {
                     System.out.println("Mostrando siguiente generacion...");
                     juego.mostrarTablero();
-                    break;
+              }
 
-                case "4":
-                    
-                    System.out.println("Guardando partida...");
-                   
-                    break;
+                case "4" -> System.out.println("Guardando partida...");
 
-                case "5":
-                    System.out.println("Saliendo...");
-                    break;
+                case "5" -> System.out.println("Saliendo...");
             }
         } while (!opcion.equals("5"));
     }

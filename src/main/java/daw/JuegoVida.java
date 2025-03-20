@@ -3,6 +3,8 @@
  */
 package daw;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -14,12 +16,14 @@ public class JuegoVida {
     private int[][] tablero;
     private int numero;
     private int generacion;
+    private List<Integer> historialCelulasVivas;
 
     public JuegoVida(int numero) {
         this.numero = numero;
         this.tablero = new int[numero][numero];
         this.generacion = 0; //Inicializa la generación como la primera y a partir
         //de un método hecho más adelante se van sumando generaciones
+        this.historialCelulasVivas = new ArrayList<>();
     }
 
     public void inicializarAleatoriamente(int porcentaje) {
@@ -39,6 +43,7 @@ public class JuegoVida {
             //coloca un 1 en la casilla donde hay celulas vivas
             tablero[fila][columna] = 1;
         }
+        contarCelulasVivas();
     }
 
     public void mostrarTablero() {
@@ -55,6 +60,18 @@ public class JuegoVida {
             System.out.println();
         }
         System.out.println("Generación: " + generacion);
+    }
+
+    private void contarCelulasVivas() {
+        int contadorCelulasVivas = 0;
+        for (int[] fila : tablero) {
+            for (int celula : fila) {
+                if (celula == 1) {
+                    contadorCelulasVivas++;
+                }
+            }
+        }
+        historialCelulasVivas.add(contadorCelulasVivas);
     }
 
     public static int contarCelulasVecinas(int[][] tablero, int fila, int columna) {
@@ -94,5 +111,33 @@ public class JuegoVida {
             contadorVecinas++;
         }
         return contadorVecinas;
+    }
+
+    public void siguienteGeneracion() {
+        int[][] tableroGeneracionNueva = new int[numero][numero];
+        for (int i = 0; i < numero; i++) {
+            for (int j = 0; j < numero; j++) {
+                int numeroCelulasVivas = contarCelulasVecinas(tablero, i, j);
+                //Una célula viva con 2 ó 3 células vecinas vivas sigue vivaé
+                if (tablero[i][j] == 1 && (numeroCelulasVivas == 2 || numeroCelulasVivas == 3)) {
+                    tableroGeneracionNueva[i][j] = 1;
+                    //Una célula muerta con exactamente 3 células vecinas vivas "nace" (
+                } else if (tablero[i][j] == 0 && numeroCelulasVivas == 3) {
+                    tableroGeneracionNueva[i][j] = 1;
+                    //en cualquiera de los otros dos casos la célula muere
+                } else {
+                    tableroGeneracionNueva[i][j] = 0;
+                }
+            }
+        }
+        //reemplazamos el tablero actual con el nuevo de la generacion actual
+        tablero = tableroGeneracionNueva;
+
+        //contamos una gen nueva
+        generacion++;
+
+        //contamos las células vivas en esta nueva generación y lo guardamos en la lista
+        contarCelulasVivas();
+
     }
 }
