@@ -4,6 +4,7 @@
  */
 package daw;
 
+import java.awt.BorderLayout;
 import java.util.Scanner;
 
 /**
@@ -14,11 +15,11 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int numero = 0;
-        int[][] tablero;
-        JuegoVida juego = null;
         boolean repetir = true;
-        
+        int numero = 0;
+        int[][] tablero = new int[numero][numero];
+        JuegoVida juego = new JuegoVida(numero);
+
         String menu = """
             Menu
             1. Cargar una partida desde un fichero de texto 
@@ -105,16 +106,17 @@ public class Main {
                     } while (repetir);
                 }
 
-                case 3 -> {
+               
+                case 3 ->{
                     System.out.println("Saliendo...");
                     break;
                 }
                 default -> {
                     System.out.println("Introduzca una opción válida");
                 }
-
+                   
             }
-
+           
         } while (opcion != 5);
     }
 }

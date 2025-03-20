@@ -23,8 +23,7 @@ public class JuegoVida {
         this.tablero = new int[numero][numero];
         this.generacion = 0; //Inicializa la generación como la primera y a partir
         //de un método hecho más adelante se van sumando generaciones
-        this.historialCelulasVivas = new ArrayList<>();//contador para saber el num
-        //de celulas vivas en cada gen
+        this.historialCelulasVivas = new ArrayList<>();
     }
 
     public void inicializarAleatoriamente(int porcentaje) {
