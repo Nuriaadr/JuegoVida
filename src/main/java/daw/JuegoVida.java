@@ -75,14 +75,6 @@ public class JuegoVida {
     }
 
     public static int contarCelulasVecinas(int fila, int columna) {
-        int contadorVecinasVivas = 0;
-
-        for (int i = fila - 1; i <= fila + 1; i++) {
-            for (int j = columna - 1; j <= columna + 1; j++) {
-
-            }
-        }
-        return contadorVecinasVivas;
 
     }
 
