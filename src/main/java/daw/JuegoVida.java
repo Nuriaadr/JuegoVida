@@ -24,6 +24,12 @@ public class JuegoVida {
     public JuegoVida(int numero) {
         this.numero = numero;
         this.tablero = new Celula[numero][numero];
+        //inicializar todas las celdas del tablero con celulas
+        for (int i = 0; i < numero; i++) {
+            for (int j = 0; j < numero; j++) {
+                tablero[i][j] = new Celula(i, j, false);
+            }
+        }
         this.generacion = 0; //Inicializa la generación como la primera y a partir
         //de un método hecho más adelante se van sumando generaciones
         this.historialCelulasVivas = new ArrayList<>();
@@ -47,26 +53,20 @@ public class JuegoVida {
     }
 
     public void mostrarTablero() {
-        for (Celula[] fila : tablero) {
-            for (Celula celula : fila) {
-                if (celula.isViva()) {
-                    System.out.print("■ ");
-                }
+    for (int i = 0; i < numero; i++) {
+        for (int j = 0; j < numero; j++) {
+            if (tablero[i][j].isViva()) {
+                System.out.print("■ ");
+            } else {
+                System.out.print("□ ");
             }
-            System.out.println();
         }
-
-        for (Celula[] fila : tablero) {
-            for (Celula celula : fila) {
-                if (!celula.isViva()) {
-                    System.out.print("□ ");
-                }
-            }
-            System.out.println();
-        }
-
-        System.out.println("Generación: " + generacion);
+        System.out.println();
+        
     }
+    System.out.println("Generacion: " + generacion);
+        System.out.println("Celulas vivas por generacion: " + historialCelulasVivas);
+}
 
     private void contarCelulasVivas() {
         int contadorCelulasVivas = 0;
@@ -79,16 +79,15 @@ public class JuegoVida {
         }
         historialCelulasVivas.add(contadorCelulasVivas);
     }
-    // cuenta las 8 posiciones de alrededor
 
     private int contarCelulasVecinas(Celula[][] tablero, int fila, int columna) {
         int contadorVecinas = 0;
 
         for (int i = fila - 1; i <= fila + 1; i++) {
             for (int j = columna - 1; j <= columna + 1; j++) {
-                //verificamos que no sea la celula actual y que esté dentro de los límites
-                if ((i != fila || j != columna) && i >= 0 && i < numero && j >= 0 && j < numero) {
-                    if (tablero[i][j].isViva()) {
+                // Verificar si la posición está dentro del tablero y no es la celda actual
+                if (i >= 0 && i < numero && j >= 0 && j < numero && !(i == fila && j == columna)) {
+                    if (tablero[i][j] != null && tablero[i][j].isViva()) {
                         contadorVecinas++;
                     }
                 }

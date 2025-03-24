@@ -31,7 +31,6 @@ public class Main {
         do {
             System.out.print(menu);
             opcion = sc.nextInt();
-            sc.nextLine();
 
             switch (opcion) {
                 case 1 ->
@@ -41,13 +40,11 @@ public class Main {
                     do {
                         System.out.println("Introduce tamaño del tablero (maximo 25x25)");
                         numero = sc.nextInt();
-                        sc.nextLine();
                         if (numero < 1 || numero > 25) {
                             System.out.println("Introduce el numero correctamente");
                         } else {
                             System.out.println("Introduce el porcentaje ");
                             int porcentaje = sc.nextInt();
-                            sc.nextLine();
                             if (porcentaje < 1 || porcentaje > 100) {
                                 System.out.println("Introduce el porcentaje correctamente");
                             } else {
@@ -74,7 +71,10 @@ public class Main {
                                             juego.mostrarTablero();
 
                                             int tamanio = juego.historialCelulasVivas.size();
+                                            
+                                            //verifica que el num de generaciones sea mayor a 3
                                             if (tamanio > 3) {
+                                                    //compara la cantidad de celulas vivas de la generacion actual y las dos anteriores 
                                                 if (juego.historialCelulasVivas.get(tamanio - 1).equals(juego.historialCelulasVivas.get(tamanio - 2))
                                                         && juego.historialCelulasVivas.get(tamanio - 2).equals(juego.historialCelulasVivas.get(tamanio - 3))) {
 
