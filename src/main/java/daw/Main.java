@@ -4,7 +4,6 @@
  */
 package daw;
 
-
 import java.util.Scanner;
 
 /**
@@ -52,11 +51,13 @@ public class Main {
                             if (porcentaje < 1 || porcentaje > 100) {
                                 System.out.println("Introduce el porcentaje correctamente");
                             } else {
+                                juego = new JuegoVida(numero);
                                 juego.inicializarAleatoriamente(porcentaje);
                                 System.out.println("Tablero inicializado");
                                 repetir = false;
                                 juego.mostrarTablero();
 
+                                boolean repetir2 = true;
                                 do {
                                     String menu2 = """
                                                    ¿Qué desea hacer?
@@ -78,7 +79,7 @@ public class Main {
                                                         && juego.historialCelulasVivas.get(tamanio - 2).equals(juego.historialCelulasVivas.get(tamanio - 3))) {
 
                                                     System.out.println("No hay cambios en las últimas 3 generaciones. El juego ha terminado.");
-                                                    repetir = false;
+                                                    repetir2 = false;
                                                     break;
 
                                                 }
@@ -96,11 +97,11 @@ public class Main {
 
                                         default -> {
                                             System.out.println("Introduzca una opción válida.");
-                                            repetir = true;
+                                            repetir2 = true;
                                         }
                                     }
 
-                                } while (repetir == true);
+                                } while (repetir2 == true);
                             }
                         }
                     } while (repetir);
@@ -116,6 +117,6 @@ public class Main {
 
             }
 
-        } while (opcion != 5);
+        } while (opcion != 3);
     }
 }
