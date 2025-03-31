@@ -15,7 +15,7 @@ public class JuegoVida {
 
     private Celula[][] tablero;
     private int numero;
-    public List<Integer> historialCelulasVivas;
+    public List<Celula[][]> historialTableros = new ArrayList<>();
     private int generacion;
 
     public JuegoVida() {
@@ -32,7 +32,7 @@ public class JuegoVida {
         }
         this.generacion = 0; //Inicializa la generación como la primera y a partir
         //de un método hecho más adelante se van sumando generaciones
-        this.historialCelulasVivas = new ArrayList<>();
+        this.historialTableros = new ArrayList<>();
     }
 
     public void inicializarAleatoriamente(int porcentaje) {
@@ -42,42 +42,41 @@ public class JuegoVida {
 
         //coloca células hasta que alcanza el numero de vivas que hemos puesto
         for (int i = 0; i < celVivas; i++) {
-            int fila, columna;
+            int fila;
+            int columna;
             do {
                 fila = rd.nextInt(numero);
                 columna = rd.nextInt(numero);
             } while (tablero[fila][columna].isViva());
             tablero[fila][columna].setViva(true); //colocamos celula viva en una posición aleatoria
         }
-        contarCelulasVivas();
+        guardarTablero();
+    }
+
+    private void guardarTablero() {
+        Celula[][] copia = new Celula[numero][numero];
+        for (int i = 0; i < numero; i++) {
+            for (int j = 0; j < numero; j++) {
+                copia[i][j] = new Celula(i, j, tablero[i][j].isViva());
+            }
+        }
+        historialTableros.add(copia);
     }
 
     public void mostrarTablero() {
-    for (int i = 0; i < numero; i++) {
-        for (int j = 0; j < numero; j++) {
-            if (tablero[i][j].isViva()) {
-                System.out.print("■ ");
-            } else {
-                System.out.print("□ ");
-            }
-        }
-        System.out.println();
-        
-    }
-    System.out.println("Generacion: " + generacion);
-        System.out.println("Celulas vivas por generacion: " + historialCelulasVivas);
-}
-
-    private void contarCelulasVivas() {
-        int contadorCelulasVivas = 0;
-        for (Celula[] fila : tablero) {
-            for (Celula celula : fila) {
-                if (celula.isViva()) {
-                    contadorCelulasVivas++;
+        for (int i = 0; i < numero; i++) {
+            for (int j = 0; j < numero; j++) {
+                if (tablero[i][j].isViva()) {
+                    System.out.print("■ ");
+                } else {
+                    System.out.print("□ ");
                 }
             }
+            System.out.println();
+
         }
-        historialCelulasVivas.add(contadorCelulasVivas);
+        System.out.println("Generacion: " + generacion);
+
     }
 
     private int contarCelulasVecinas(Celula[][] tablero, int fila, int columna) {
@@ -85,7 +84,7 @@ public class JuegoVida {
 
         for (int i = fila - 1; i <= fila + 1; i++) {
             for (int j = columna - 1; j <= columna + 1; j++) {
-                // Verificar si la posición está dentro del tablero y no es la celda actual
+                //Verificar si la posición está dentro del tablero y no es la celda actual
                 if (i >= 0 && i < numero && j >= 0 && j < numero && !(i == fila && j == columna)) {
                     if (tablero[i][j] != null && tablero[i][j].isViva()) {
                         contadorVecinas++;
@@ -125,7 +124,34 @@ public class JuegoVida {
 
         //actualizamos el tablero a la nueva generación
         tablero = tableroGeneracionNueva;
-        generacion++;
-        contarCelulasVivas();
+        generacion++; //suma una generacion
+        guardarTablero(); //guarda en el historial de tableros el tablero actual
+    }
+
+    //lo mismo que habia antes en el main pero hecho método y con un comparador de tableros 
+    public boolean MatrizGenIgual() {
+        //verifica que el num de generaciones sea mayor a 3
+        if (historialTableros.size() < 3) {
+            return false;
+        } else {
+            Celula[][] ultima = historialTableros.get(historialTableros.size() - 1);
+            Celula[][] penultima = historialTableros.get(historialTableros.size() - 2);
+            Celula[][] antepenultima = historialTableros.get(historialTableros.size() - 3);
+            return sonTablerosIguales(ultima, penultima) && sonTablerosIguales(penultima, antepenultima);//evuelve si las matrices son iguales o no
+        }
+
+    }
+
+    private boolean sonTablerosIguales(Celula[][] matriz1, Celula[][] matriz2) {
+        for (int i = 0; i < numero; i++) {
+            for (int j = 0; j < numero; j++) {
+                //compara que la celula en la posicion ij de ambas matrices este viva/muerta, si no, las matrices no son iguales
+                //y si si po si son iguales 
+                if (matriz1[i][j].isViva() != matriz2[i][j].isViva()) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

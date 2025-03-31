@@ -69,15 +69,11 @@ public class Main {
                                         case 1 -> {
                                             juego.siguienteGeneracion();
                                             juego.mostrarTablero();
+                                            int tamanio = juego.historialTableros.size();
 
-                                            int tamanio = juego.historialCelulasVivas.size();
-                                            
                                             //verifica que el num de generaciones sea mayor a 3
                                             if (tamanio > 3) {
-                                                    //compara la cantidad de celulas vivas de la generacion actual y las dos anteriores 
-                                                if (juego.historialCelulasVivas.get(tamanio - 1).equals(juego.historialCelulasVivas.get(tamanio - 2))
-                                                        && juego.historialCelulasVivas.get(tamanio - 2).equals(juego.historialCelulasVivas.get(tamanio - 3))) {
-
+                                                if (juego.MatrizGenIgual() == true) {
                                                     System.out.println("No hay cambios en las últimas 3 generaciones. El juego ha terminado.");
                                                     repetir2 = false;
                                                     break;
@@ -88,6 +84,7 @@ public class Main {
                                         }
                                         case 2 -> {
                                             System.out.println("Terminando el juego...");
+                                            repetir2 = false;
                                             break;
                                         }
 
