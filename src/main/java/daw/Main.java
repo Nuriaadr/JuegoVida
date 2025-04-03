@@ -18,7 +18,7 @@ public class Main {
         int numero = 0;
         int[][] tablero;
         JuegoVida juego = null;
-
+        String archivo;
         String menu = """
             Menu
             1. Cargar una partida desde un fichero de texto 
@@ -31,10 +31,20 @@ public class Main {
         do {
             System.out.print(menu);
             opcion = sc.nextInt();
-
+            sc.nextLine();
             switch (opcion) {
-                case 1 ->
-                    System.out.println("Cargando partida desde archivo...");
+                case 1 -> {
+                    System.out.print("Introduce el nombre del archivo para cargar: ");
+                    archivo = sc.nextLine();
+                    juego = JuegoVida.cargarPartida(archivo);
+                    System.out.println("Cargando partida desde el archivo...");
+                    if (juego != null) {
+                        System.out.println("Partida cargada exitosamente.");
+                        juego.mostrarTablero();
+                    } else {
+                        System.out.println("No se pudo cargar la partida.");
+                    }
+                }
 
                 case 2 -> {
                     do {
@@ -85,11 +95,15 @@ public class Main {
                                         case 2 -> {
                                             System.out.println("Terminando el juego...");
                                             repetir2 = false;
+
                                             break;
                                         }
 
                                         case 3 -> {
-
+                                            System.out.println("Ingrese el nombre del archivo para guardar la partida: ");
+                                            sc.nextLine();
+                                            archivo = sc.nextLine();
+                                            juego.guardarPartida(archivo);
                                         }
 
                                         default -> {

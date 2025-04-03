@@ -3,9 +3,15 @@
  */
 package daw;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  *
@@ -16,6 +22,8 @@ public class JuegoVida {
     private Celula[][] tablero;
     private int numero;
     public List<Celula[][]> historialTableros = new ArrayList<>();
+    private List<Integer> historialCelulasVivas = new ArrayList<>();
+
     private int generacion;
 
     public JuegoVida() {
@@ -33,6 +41,7 @@ public class JuegoVida {
         this.generacion = 0; //Inicializa la generación como la primera y a partir
         //de un método hecho más adelante se van sumando generaciones
         this.historialTableros = new ArrayList<>();
+        this.historialCelulasVivas = new ArrayList<>();
     }
 
     public void inicializarAleatoriamente(int porcentaje) {
@@ -51,6 +60,20 @@ public class JuegoVida {
             tablero[fila][columna].setViva(true); //colocamos celula viva en una posición aleatoria
         }
         guardarTablero();
+        contarCelulasVivas();
+
+    }
+
+    private void contarCelulasVivas() {
+        int contadorCelulasVivas = 0;
+        for (Celula[] fila : tablero) {
+            for (Celula celula : fila) {
+                if (celula.isViva()) {
+                    contadorCelulasVivas++;
+                }
+            }
+        }
+        historialCelulasVivas.add(contadorCelulasVivas);
     }
 
     private void guardarTablero() {
@@ -76,6 +99,7 @@ public class JuegoVida {
 
         }
         System.out.println("Generacion: " + generacion);
+        System.out.println("Células vivas en la generación: " + historialCelulasVivas.toString());
 
     }
 
@@ -125,6 +149,7 @@ public class JuegoVida {
         //actualizamos el tablero a la nueva generación
         tablero = tableroGeneracionNueva;
         generacion++; //suma una generacion
+        contarCelulasVivas();
         guardarTablero(); //guarda en el historial de tableros el tablero actual
     }
 
@@ -154,4 +179,68 @@ public class JuegoVida {
         }
         return true;
     }
+
+    public void guardarPartida(String nombreArchivo) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo))) {
+            //se escriben/guardan los datos del tablero
+            writer.write(numero + "\n");
+            writer.write(generacion + "\n");
+            for (int i = 0; i < numero; i++) {
+                for (int j = 0; j < numero; j++) {
+                    //se asignan los valores que se van a escribir dependiendo de
+                    //si están vivas o muertas
+                    String valor = "□ ";
+                    if (tablero[i][j].isViva()) {
+                        valor = "■ ";
+                    }
+                    writer.write(valor);//se escribe el valor de la celula
+                }
+                writer.newLine(); //hace que cada fila de la matriz esté en una linea distinta
+            }
+            //se guarda el num de celulas vivas en el tablero que se está jugando
+            //para que cuando se cargue el tablero se carguen tambien las células
+            //que habían vivas directamenteé
+            writer.write(historialCelulasVivas.size() + "\n");
+            for (int celulas : historialCelulasVivas) {
+                writer.write(celulas + "\n");
+            }
+            System.out.println("Partida guardada en " + nombreArchivo);
+        } catch (IOException e) {
+            System.out.println("Error al guardar la partida");
+        }
+    }
+
+    public static JuegoVida cargarPartida(String nombreArchivo) {
+        try (Scanner scanner = new Scanner(new File(nombreArchivo))) {
+            //carga los datos del tablero
+            int numero = scanner.nextInt();
+            int generacion = scanner.nextInt();
+            JuegoVida juego = new JuegoVida(numero);
+            juego.generacion = generacion;
+            scanner.nextLine();
+            //leer el tablero con los cuadraditos
+            for (int i = 0; i < numero; i++) {
+                String linea = scanner.nextLine(); //lee una línea del archivo
+                String[] celdas = linea.split(" "); //divide la línea en partes
+                for (int j = 0; j < numero; j++) {
+                    if (celdas[j].equals("■")) {
+                        juego.tablero[i][j].setViva(true); //esta viva
+                    } else if (celdas[j].equals("□")) {
+                        juego.tablero[i][j].setViva(false); //esta muerta
+                    }
+                }
+            }
+            //carga el historial de celulas vivas
+            int historialSize = scanner.nextInt();
+            for (int i = 0; i < historialSize; i++) {
+                juego.historialCelulasVivas.add(scanner.nextInt());
+            }
+            System.out.println("Partida cargada desde " + nombreArchivo);
+            return juego;
+        } catch (IOException e) {
+            System.out.println("Error al cargar la partida");
+            return null;
+        }
+    }
+
 }
