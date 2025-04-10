@@ -5,7 +5,6 @@ package daw;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -159,6 +158,7 @@ public class JuegoVida {
         if (historialTableros.size() < 3) {
             return false;
         } else {
+            //compara las 3 ultimas matrices de las generaciones guardadas en el historial
             Celula[][] ultima = historialTableros.get(historialTableros.size() - 1);
             Celula[][] penultima = historialTableros.get(historialTableros.size() - 2);
             Celula[][] antepenultima = historialTableros.get(historialTableros.size() - 3);
